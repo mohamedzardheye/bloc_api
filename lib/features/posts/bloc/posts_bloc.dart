@@ -31,9 +31,8 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
         PostDataModel post =
             PostDataModel.fromJson(result[i] as Map<String, dynamic>);
         posts.add(post);
-        print(posts);
       }
-
+      print(posts);
       emit(PostsFetchedSuccessfulState(posts: posts));
     } catch (e) {
       log(e.toString() as num);

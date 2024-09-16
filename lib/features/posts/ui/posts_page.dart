@@ -18,18 +18,41 @@ class _PostsPageState extends State<PostsPage> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Posts'),
+        title: const Text('Posts'),
       ),
       body: BlocConsumer<PostsBloc, PostsState>(
         bloc: postsBloc,
+        listenWhen: (previous, current) => current is PostsAtionState,
+        buildWhen: (previous, current) => current is! PostsAtionState,
         listener: (context, state) {
           // TODO: implement listener
         },
         builder: (context, state) {
-          return Container();
+          switch (state.runtimeType) {
+            case PostsFetchedSuccessfulState:
+              final successState = state as PostsFetchedSuccessfulState;
+
+              return Container(
+                child: ListView.builder(
+                  itemCount: successState.posts.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [Text(successState.posts[index].title)],
+                      ),
+                    );
+                  },
+                ),
+              );
+
+            default:
+              return const SizedBox();
+          }
         },
       ),
     );

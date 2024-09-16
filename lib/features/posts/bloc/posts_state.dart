@@ -5,6 +5,8 @@ sealed class PostsState {}
 
 class PostsInitial extends PostsState {}
 
+abstract class PostsAtionState extends PostsState {}
+
 class PostsFetchedSuccessfulState extends PostsState {
   final List<PostDataModel> posts;
 
