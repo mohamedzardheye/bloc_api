@@ -24,16 +24,25 @@ class _PostsPageState extends State<PostsPage> {
       appBar: AppBar(
         title: const Text('Posts'),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          postsBloc.add(PostAddEvent());
+        },
+      ),
       body: BlocConsumer<PostsBloc, PostsState>(
         bloc: postsBloc,
-        listenWhen: (previous, current) => current is PostsAtionState,
-        buildWhen: (previous, current) => current is! PostsAtionState,
+        listenWhen: (previous, current) => current is PostsActionState,
+        buildWhen: (previous, current) => current is! PostsActionState,
         listener: (context, state) {
           // TODO: implement listener
         },
         builder: (context, state) {
           switch (state.runtimeType) {
-            case PostsFetchedSuccessfulState:
+            case const (PostsFetchingLoadingState):
+              return const Center(child: CircularProgressIndicator());
+
+            case const (PostsFetchedSuccessfulState):
               final successState = state as PostsFetchedSuccessfulState;
 
               return Container(
@@ -41,9 +50,17 @@ class _PostsPageState extends State<PostsPage> {
                   itemCount: successState.posts.length,
                   itemBuilder: (context, index) {
                     return Container(
+                      color: Colors.grey.shade200,
+                      padding: const EdgeInsets.all(16),
+                      margin: const EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [Text(successState.posts[index].title)],
+                        children: [
+                          Text(successState.posts[index].title,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
+                          Text(successState.posts[index].body)
+                        ],
                       ),
                     );
                   },

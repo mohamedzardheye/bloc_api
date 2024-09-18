@@ -1,21 +1,3 @@
-// class PostDataModel {
-//   final int userId;
-//   final int id;
-//   final String title;
-//   final String body;
-//   PostDataModel(
-//       {required this.userId,
-//       required this.id,
-//       required this.title,
-//       required this.body});
-
-//   Map<String, dynamic> toMap() {
-//     return {'UserId': userId, 'id': id, 'title': title, 'body': body};
-//   }
-
-//   factory PostDataModel.fromMap(Map<String,)
-// }
-
 import 'dart:convert';
 
 List<PostDataModel> postDataModelFromJson(String str) =>
